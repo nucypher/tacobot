@@ -32,7 +32,10 @@ def format_countdown(seconds: int) -> str:
 
 def make_title_from_state(state: RitualState) -> str:
     if state == RitualState.ACTIVE:
-        return "✅ Active"
+        # TODO: use finalize for now since Tapir is behind (rc.9)
+        #  Updated contracts (Lynx) separate ACTIVE from EXPIRED now/
+        #  Update to "Active" once Tapir's contracts are updated.
+        return "✅ Finalized"
     else:
         return state.name.lower().title()
 
