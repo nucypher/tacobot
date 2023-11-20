@@ -8,7 +8,7 @@ aiohttp = "*"
 python-dotenv = "*"
 web3 = "*"
 "discord.py" = "*"
-nucypher = { ref = "v7.0.0-rc.1", git = "https://github.com/nucypher/nucypher.git" }
+nucypher = { ref = "v7.0.0-rc.10", git = "https://github.com/nucypher/nucypher.git" }
 
 
 [dev-packages]
