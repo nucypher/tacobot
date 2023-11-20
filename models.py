@@ -7,4 +7,5 @@ class RitualState(Enum):
     AWAITING_AGGREGATIONS = 2
     TIMEOUT = 3
     INVALID = 4
-    FINALIZED = 5
+    ACTIVE = 5
+    EXPIRED = 6

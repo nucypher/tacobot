@@ -31,8 +31,8 @@ def format_countdown(seconds: int) -> str:
 
 
 def make_title_from_state(state: RitualState) -> str:
-    if state == RitualState.FINALIZED:
-        return "✅ Finalized"
+    if state == RitualState.ACTIVE:
+        return "✅ Active"
     else:
         return state.name.lower().title()
 
