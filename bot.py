@@ -30,5 +30,10 @@ async def on_message(message):
 
 
 if __name__ == "__main__":
-    cache_agents(os.getenv('INFURA_URL'))
+    infura_api_key = os.getenv('INFURA_API_KEY')
+    endpoints = {
+        137: f"https://polygon-mainnet.infura.io/v3/{infura_api_key}",
+        80001: f"https://polygon-mumbai.infura.io/v3/{infura_api_key}"
+    }
+    cache_agents(endpoints)
     client.run(os.getenv('DISCORD_TOKEN'))
