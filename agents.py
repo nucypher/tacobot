@@ -3,6 +3,7 @@ from collections import defaultdict
 import aiohttp
 from nucypher.blockchain.eth.agents import ContractAgency, CoordinatorAgent
 from nucypher.blockchain.eth import domains
+from nucypher.blockchain.eth.domains import TACoDomain
 from nucypher.blockchain.eth.registry import ContractRegistry
 
 from typing import Dict
@@ -24,9 +25,8 @@ _TRACK = {
 }
 
 
-def get_agent(contract_name: str, domain_name: str):
+def get_agent(contract_name: str, domain: TACoDomain):
     """Get the agent by domain name."""
-    domain = domains.get_domain(domain_name)
     return __AGENTS[domain][contract_name]
 
 
