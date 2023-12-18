@@ -15,6 +15,9 @@ _TRACK = {
     ),
     domains.TAPIR: (
         CoordinatorAgent,
+    ),
+    domains.MAINNET: (
+        CoordinatorAgent,
     )
 }
 
