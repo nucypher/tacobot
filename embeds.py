@@ -9,11 +9,12 @@ from nucypher.blockchain.eth.domains import TACoDomain
 from models import RitualState
 
 
-def make_polygon_explorer_link(domain: TACoDomain, address: str) -> str:
+def make_polygon_explorer_link(domain: TACoDomain, address: str, short_form: bool = False) -> str:
+    address_to_use = address[:8] if short_form else address
     if domain == domains.MAINNET:
-        return f"[{address}](https://polygonscan.com/address/{address})"
+        return f"[{address_to_use}](https://polygonscan.com/address/{address})"
     else:
-        return f"[{address}](https://oklink.com/amoy/address/{address})"
+        return f"[{address_to_use}](https://oklink.com/amoy/address/{address})"
 
 
 def format_duration(seconds: int) -> str:
@@ -74,9 +75,17 @@ def format_ritual_status_embed(domain: TACoDomain, _id: int, ritual: Coordinator
     embed.add_field(name="Transcripts Count", value=ritual.total_transcripts, inline=True)
     embed.add_field(name="Aggregation Mismatch", value=ritual.aggregation_mismatch, inline=True)
 
-    # Create links for each participant address
+    # Too much text with links, so break-up participants
+    # into blocks of 10 and use short form addresses
     participants: Sequence[CoordinatorAgent.Ritual.Participant] = ritual.participants
-    pretty_participants = ", ".join(make_polygon_explorer_link(domain, participant.provider) for participant in participants)
-    embed.add_field(name="Participants", value=pretty_participants, inline=False)
+    i = 0
+    num_participants = len(participants)
+    while i < num_participants:
+        block_end = min(i + 10, num_participants)  # 10 at a time
+        pretty_participants = ", ".join(
+            make_polygon_explorer_link(domain, participant.provider, True)
+            for participant in participants[i:block_end]
+        )
+        embed.add_field(name=f"Participants[{i}-{block_end}]", value=pretty_participants, inline=False)
 
     return embed
