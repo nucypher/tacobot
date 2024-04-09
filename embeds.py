@@ -86,5 +86,6 @@ def format_ritual_status_embed(domain: TACoDomain, ritual: Coordinator.Ritual, s
             make_polygon_explorer_link(domain, participant, True) for participant in participant_addresses[i:block_end]
         )
         embed.add_field(name=f"Participants[{i}-{block_end}]", value=pretty_participants, inline=False)
+        i = block_end
 
     return embed
