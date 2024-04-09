@@ -9,11 +9,11 @@ from nucypher.blockchain.eth.domains import TACoDomain
 from models import RitualState
 
 
-def make_polygonscan_link(domain: TACoDomain, address: str) -> str:
+def make_polygon_explorer_link(domain: TACoDomain, address: str) -> str:
     if domain == domains.MAINNET:
         return f"[{address}](https://polygonscan.com/address/{address})"
     else:
-        return f"[{address}](https://mumbai.polygonscan.com/address/{address})"
+        return f"[{address}](https://oklink.com/amoy/address/{address})"
 
 
 def format_duration(seconds: int) -> str:
@@ -65,9 +65,9 @@ def format_ritual_status_embed(domain: TACoDomain, _id: int, ritual: Coordinator
     embed.add_field(name="Time Remaining", value=format_countdown(time_remaining), inline=True)
 
     embed.add_field(name="\nAuthority Info", value="---", inline=False)
-    embed.add_field(name="Initiator", value=make_polygonscan_link(domain, ritual.initiator), inline=False)
-    embed.add_field(name="Authority", value=make_polygonscan_link(domain, ritual.authority), inline=False)
-    embed.add_field(name="Access Controller", value=make_polygonscan_link(domain, ritual.access_controller), inline=False)
+    embed.add_field(name="Initiator", value=make_polygon_explorer_link(domain, ritual.initiator), inline=False)
+    embed.add_field(name="Authority", value=make_polygon_explorer_link(domain, ritual.authority), inline=False)
+    embed.add_field(name="Access Controller", value=make_polygon_explorer_link(domain, ritual.access_controller), inline=False)
 
     embed.add_field(name="\nTechnical Info", value="---", inline=False)
     embed.add_field(name="M/N", value=f"{ritual.threshold}/{ritual.dkg_size}", inline=True)
@@ -76,7 +76,7 @@ def format_ritual_status_embed(domain: TACoDomain, _id: int, ritual: Coordinator
 
     # Create links for each participant address
     participants: Sequence[CoordinatorAgent.Ritual.Participant] = ritual.participants
-    pretty_participants = ", ".join(make_polygonscan_link(domain, participant.provider) for participant in participants)
+    pretty_participants = ", ".join(make_polygon_explorer_link(domain, participant.provider) for participant in participants)
     embed.add_field(name="Participants", value=pretty_participants, inline=False)
 
     return embed
