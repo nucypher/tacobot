@@ -3,8 +3,8 @@ from typing import Sequence
 
 from discord import Embed
 from nucypher.blockchain.eth import domains
-from nucypher.blockchain.eth.agents import CoordinatorAgent
 from nucypher.blockchain.eth.domains import TACoDomain
+from nucypher.blockchain.eth.models import Coordinator
 
 from models import RitualState
 
@@ -43,7 +43,7 @@ def make_title_from_state(state: RitualState) -> str:
         return state.name.lower().title()
 
 
-def format_ritual_status_embed(domain: TACoDomain, _id: int, ritual: CoordinatorAgent.Ritual, state: RitualState) -> Embed:
+def format_ritual_status_embed(domain: TACoDomain, ritual: Coordinator.Ritual, state: RitualState) -> Embed:
     """Format the ritual status for Discord as an embed."""
 
     # Change color based on ritual state
@@ -54,7 +54,7 @@ def format_ritual_status_embed(domain: TACoDomain, _id: int, ritual: Coordinator
     }
     pretty_state = make_title_from_state(state)
 
-    embed = Embed(title=f"Ritual ID# {_id} {pretty_state}", description="",
+    embed = Embed(title=f"Ritual ID# {ritual.id} {pretty_state}", description="",
                   color=color_map.get(state.name, 0x3498db))
 
     embed.add_field(name="\nTime Info", value="---", inline=False)
@@ -77,7 +77,7 @@ def format_ritual_status_embed(domain: TACoDomain, _id: int, ritual: Coordinator
 
     # Too much text with links, so break-up participants
     # into blocks of 10 and use short form addresses
-    participants: Sequence[CoordinatorAgent.Ritual.Participant] = ritual.participants
+    participants: Sequence[Coordinator.Participant] = ritual.participants
     i = 0
     num_participants = len(participants)
     while i < num_participants:

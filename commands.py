@@ -16,9 +16,9 @@ async def ritual_command(message):
     try:
         domain = domains.get_domain(domain_name)
         agent: CoordinatorAgent = get_agent(contract_name="coordinator", domain=domain)
-        status = agent.get_ritual(int(ritual_id), with_participants=True)
+        ritual = agent.get_ritual(int(ritual_id), transcripts=False)
         state = RitualState(agent.get_ritual_status(int(ritual_id)))
-        embed = format_ritual_status_embed(domain, ritual_id, status, state)
+        embed = format_ritual_status_embed(domain, ritual, state)
         embed.set_footer(text=f"Ritual Info requested by {message.author.display_name}")
         await message.channel.send(embed=embed)
     except Exception as e:
