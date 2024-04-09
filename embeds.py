@@ -77,14 +77,13 @@ def format_ritual_status_embed(domain: TACoDomain, ritual: Coordinator.Ritual, s
 
     # Too much text with links, so break-up participants
     # into blocks of 10 and use short form addresses
-    participants: Sequence[Coordinator.Participant] = ritual.participants
+    participant_addresses = ritual.providers
     i = 0
-    num_participants = len(participants)
+    num_participants = len(participant_addresses)
     while i < num_participants:
         block_end = min(i + 10, num_participants)  # 10 at a time
         pretty_participants = ", ".join(
-            make_polygon_explorer_link(domain, participant.provider, True)
-            for participant in participants[i:block_end]
+            make_polygon_explorer_link(domain, participant, True) for participant in participant_addresses[i:block_end]
         )
         embed.add_field(name=f"Participants[{i}-{block_end}]", value=pretty_participants, inline=False)
 
