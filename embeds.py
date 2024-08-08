@@ -1,5 +1,4 @@
 from datetime import datetime
-from typing import Sequence
 
 from discord import Embed
 from nucypher.blockchain.eth import domains
