@@ -14,7 +14,7 @@ def make_polygon_explorer_link(domain: TACoDomain, address: str, short_form: boo
     if domain == domains.MAINNET:
         return f"[{address_to_use}](https://polygonscan.com/address/{address})"
     else:
-        return f"[{address_to_use}](https://oklink.com/amoy/address/{address})"
+        return f"[{address_to_use}](https://amoy.polygonscan.com/address/{address})"
 
 
 def format_duration(seconds: int) -> str:
