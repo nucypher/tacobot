@@ -2,8 +2,9 @@ from nucypher.blockchain.eth import domains
 from nucypher.blockchain.eth.agents import CoordinatorAgent
 
 from agents import get_agent
-from embeds import format_ritual_status_embed
+from embeds import format_ritual_status_embed, format_network_status_embed
 from models import RitualState
+from network import get_network_versions
 
 
 async def ritual_command(message):
@@ -26,6 +27,13 @@ async def ritual_command(message):
         return
 
 
+async def network_status_command(message):
+    total_nodes, results = await get_network_versions()
+    embed = format_network_status_embed(total_nodes, results)
+    await message.channel.send(embed=embed)
+
+
 _COMMANDS = {
     'ritual': ritual_command,
+    'network-status': network_status_command,
 }
