@@ -88,3 +88,14 @@ def format_ritual_status_embed(domain: TACoDomain, ritual: Coordinator.Ritual, s
         i = block_end
 
     return embed
+
+
+def format_network_status_embed(total_nodes: int, results: list) -> Embed:
+    """Format the network status for Discord as an embed."""
+    embed = Embed(title=f"Network Status", description=f"Number of nodes: {total_nodes}", color=0x3498db)
+
+    for version, count in results:
+        percentage = count * 100 / total_nodes
+        embed.add_field(name=f"Version {version}", value=f"{count} nodes ({percentage:.1f}%)", inline=False)
+
+    return embed
