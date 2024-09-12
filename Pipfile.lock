@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "926c48621db4420df2fd86973856ba23c17fd83b8db2f379755ca82dcf9859ee"
+            "sha256": "4c3436df6358144d5b0372798906a003c9bdc0776d82384f30c880cf7fe2b711"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -1293,9 +1293,13 @@
             "version": "==6.0.5"
         },
         "nucypher": {
-            "git": "https://github.com/nucypher/nucypher.git",
+            "hashes": [
+                "sha256:83bda206bca1b1eff6740669c76abcf780b08f3f661273030fc6b6cbf341d6b0",
+                "sha256:f8646eb42427355b6e345c2800b31581cbd736a05cc44d87eed87d002dfcf384"
+            ],
+            "index": "pypi",
             "markers": "python_version >= '3'",
-            "ref": "779724e7bf04f6b8a7298e167a9a853cb6635b81"
+            "version": "==7.4.1"
         },
         "nucypher-core": {
             "hashes": [
@@ -1523,7 +1527,7 @@
                 "sha256:6f62c13d067b0755ad1c21a34bdd06c0c12625a22b0fc09c6b149816604f7c2a",
                 "sha256:73ee9fddd406dc318b885c7a2eab8a6472b68b8fb5ba8150949fc3db939f23c8"
             ],
-            "markers": "python_version >= '3.8'",
+            "markers": "python_version >= '3.9' and python_version < '4.0'",
             "version": "==2.8.2"
         },
         "pydantic-core": {
