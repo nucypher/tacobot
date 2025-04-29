@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 import aiohttp
-from nucypher.blockchain.eth.agents import ContractAgency, CoordinatorAgent
+from nucypher.blockchain.eth.agents import ContractAgency, CoordinatorAgent, SigningCoordinatorAgent
 from nucypher.blockchain.eth import domains
 from nucypher.blockchain.eth.domains import TACoDomain
 from nucypher.blockchain.eth.registry import ContractRegistry
@@ -15,6 +15,7 @@ __AGENTS = defaultdict(defaultdict)
 _TRACK = {
     domains.LYNX: (
         CoordinatorAgent,
+        SigningCoordinatorAgent,
     ),
     domains.TAPIR: (
         CoordinatorAgent,

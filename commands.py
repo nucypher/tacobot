@@ -39,7 +39,7 @@ async def signing_ritual_command(message):
 
     try:
         domain = domains.get_domain(domain_name)
-        agent: SigningCoordinatorAgent = get_agent(contract_name="SigningCoordinator", domain=domain)
+        agent: SigningCoordinatorAgent = get_agent(contract_name="signingcoordinator", domain=domain)
         signing_cohort = agent.get_signing_cohort(int(cohort_id))
         state = SigningRitualState(agent.get_signing_cohort_status(int(cohort_id)))
         embed = format_signing_ritual_embed(domain, signing_cohort, state)
