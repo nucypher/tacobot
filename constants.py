@@ -1,1 +1,1 @@
-BASE_URL = 'https://raw.githubusercontent.com/nucypher/nucypher-contracts/main/deployment/artifacts/{domain}.json'
+BASE_URL = 'https://raw.githubusercontent.com/derekpierre/nucypher-contracts/secreto/deployment/artifacts/{domain}.json'

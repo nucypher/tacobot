@@ -1,11 +1,12 @@
 from datetime import datetime
+from typing import List
 
 from discord import Embed
 from nucypher.blockchain.eth import domains
 from nucypher.blockchain.eth.domains import TACoDomain
-from nucypher.blockchain.eth.models import Coordinator
+from nucypher.blockchain.eth.models import Coordinator, SigningCoordinator
 
-from models import RitualState
+from models import RitualState, SigningRitualState
 
 
 def make_polygon_explorer_link(domain: TACoDomain, address: str, short_form: bool = False) -> str:
@@ -35,6 +36,26 @@ def format_countdown(seconds: int) -> str:
     return f"{days}d {hours}h {minutes}m {seconds}s"
 
 
+def add_participants(embed: Embed,
+                     domain: TACoDomain,
+                     participant_addresses: List[str]) -> None:
+    """Format a list of participants into a string."""
+    num_participants = len(participant_addresses)
+    i = 0
+    while i < num_participants:
+        block_end = min(i + 10, num_participants)  # 10 at a time
+        pretty_participants = ", ".join(
+            make_polygon_explorer_link(domain, participant, True) for participant in
+            participant_addresses[i:block_end]
+        )
+        embed.add_field(name=f"Participants[{i}-{block_end}]", value=pretty_participants,
+                        inline=False)
+        i = block_end
+
+
+#
+# DKG Ritual
+#
 def make_title_from_state(state: RitualState) -> str:
     if state == RitualState.ACTIVE:
         return "✅ Active"
@@ -77,19 +98,14 @@ def format_ritual_status_embed(domain: TACoDomain, ritual: Coordinator.Ritual, s
     # Too much text with links, so break-up participants
     # into blocks of 10 and use short form addresses
     participant_addresses = ritual.providers
-    i = 0
-    num_participants = len(participant_addresses)
-    while i < num_participants:
-        block_end = min(i + 10, num_participants)  # 10 at a time
-        pretty_participants = ", ".join(
-            make_polygon_explorer_link(domain, participant, True) for participant in participant_addresses[i:block_end]
-        )
-        embed.add_field(name=f"Participants[{i}-{block_end}]", value=pretty_participants, inline=False)
-        i = block_end
+    add_participants(embed, domain, participant_addresses)
 
     return embed
 
 
+#
+# Network Status
+#
 def format_network_status_embed(total_nodes: int, results: list) -> Embed:
     """Format the network status for Discord as an embed."""
     embed = Embed(title=f"Network Status", description=f"Number of nodes: {total_nodes}", color=0x3498db)
@@ -97,5 +113,58 @@ def format_network_status_embed(total_nodes: int, results: list) -> Embed:
     for version, count in results:
         percentage = count * 100 / total_nodes
         embed.add_field(name=f"Version {version}", value=f"{count} nodes ({percentage:.1f}%)", inline=False)
+
+    return embed
+
+
+#
+# Signing Ritual
+#
+def make_signing_cohort_title_from_state(state: SigningRitualState) -> str:
+    if state == SigningRitualState.ACTIVE:
+        return "✅ Active"
+    return state.name.lower().title()
+
+
+def format_signing_ritual_embed(
+        domain: TACoDomain,
+        signing_cohort: SigningCoordinator.SigningCohort,
+        state: SigningRitualState
+) -> Embed:
+    color_map = {
+        'ACTIVE': 0x00FF00,
+        'EXPIRED': 0xFF0000,
+        'PENDING': 0xFFA500
+    }
+    pretty_state = make_signing_cohort_title_from_state(state)
+
+    embed = Embed(title=f"Cohort ID# {signing_cohort.id} {pretty_state}", description="",
+                  color=color_map.get(state.name, 0x3498db))
+
+    embed.add_field(name="\nTime Info", value="---", inline=False)
+    embed.add_field(name="Init Timestamp",
+                    value=datetime.fromtimestamp(signing_cohort.init_timestamp).strftime(
+                        '%B %d, %Y at %H:%M:%S UTC'), inline=True)
+    embed.add_field(name="End Timestamp",
+                    value=datetime.fromtimestamp(signing_cohort.end_timestamp).strftime(
+                        '%B %d, %Y at %H:%M:%S UTC'), inline=True)
+    time_remaining = signing_cohort.end_timestamp - int(datetime.now().timestamp())
+    embed.add_field(name="Time Remaining", value=format_countdown(time_remaining), inline=True)
+
+    embed.add_field(name="\nAuthority Info", value="---", inline=False)
+    embed.add_field(name="Initiator", value=make_polygon_explorer_link(domain, signing_cohort.initiator),
+                    inline=False)
+    embed.add_field(name="Authority", value=make_polygon_explorer_link(domain, signing_cohort.authority),
+                    inline=False)
+
+    embed.add_field(name="\nTechnical Info", value="---", inline=False)
+    embed.add_field(name="M/N", value=f"{signing_cohort.threshold}/{signing_cohort.num_signers}", inline=True)
+    embed.add_field(name="Signatures Count", value=signing_cohort.total_signatures, inline=True)
+    embed.add_field(name="Multisig", value=signing_cohort.multisig, inline=True)
+
+    # Too much text with links, so break-up participants
+    # into blocks of 10 and use short form addresses
+    participant_addresses = [p.provider for p in signing_cohort.signers]
+    add_participants(embed, domain, participant_addresses)
 
     return embed
