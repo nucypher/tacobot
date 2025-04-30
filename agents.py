@@ -44,15 +44,14 @@ def cache_agents(endpoints: Dict[int, str]):
     registries = {domain: ContractRegistry.from_latest_publication(domain=domain) for domain in _TRACK}
 
     for domain, registry in registries.items():
-        for _, agent_classes in _TRACK.items():
-            endpoint = endpoints[domain.polygon_chain.id]
-            if not endpoint:
-                raise ValueError(f"No endpoint provided for domain {domain}")
-            for agent_class in agent_classes:
-                _agent = ContractAgency.get_agent(
-                    agent_class=agent_class,
-                    registry=registry,
-                    blockchain_endpoint=endpoint,
-                )
-                __AGENTS[domain][_agent.contract_name.lower()] = _agent
+        endpoint = endpoints[domain.polygon_chain.id]
+        if not endpoint:
+            raise ValueError(f"No endpoint provided for domain {domain}")
+        for agent_class in _TRACK[domain]:
+            _agent = ContractAgency.get_agent(
+                agent_class=agent_class,
+                registry=registry,
+                blockchain_endpoint=endpoint,
+            )
+            __AGENTS[domain][_agent.contract_name.lower()] = _agent
     return __AGENTS
