@@ -17,3 +17,4 @@ class SigningRitualState(Enum):
     TIMEOUT = 2
     ACTIVE = 3
     EXPIRED = 4
+    AWAITING_CONDITIONS = 5

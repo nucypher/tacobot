@@ -123,6 +123,8 @@ def format_network_status_embed(total_nodes: int, results: list) -> Embed:
 def make_signing_cohort_title_from_state(state: SigningRitualState) -> str:
     if state == SigningRitualState.ACTIVE:
         return "✅ Active"
+    elif state == SigningRitualState.AWAITING_CONDITIONS:
+        return "❕Awaiting Conditions"
     return state.name.lower().title()
 
 
