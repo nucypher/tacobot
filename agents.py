@@ -13,16 +13,16 @@ from constants import BASE_URL
 __AGENTS = defaultdict(defaultdict)
 
 _TRACK = {
-    domains.LYNX: (
-        CoordinatorAgent,
-        SigningCoordinatorAgent,
-    ),
-    domains.TAPIR: (
-        CoordinatorAgent,
-    ),
-    domains.MAINNET: (
-        CoordinatorAgent,
-    )
+    domains.LYNX: [
+        (CoordinatorAgent, domains.LYNX.polygon_chain),
+        (SigningCoordinatorAgent, domains.LYNX.eth_chain.chain),
+    ],
+    domains.TAPIR: [
+        (CoordinatorAgent, domains.TAPIR.polygon_chain),
+    ],
+    domains.MAINNET: [
+        (CoordinatorAgent, domains.MAINNET.polygon_chain),
+    ]
 }
 
 
@@ -44,10 +44,13 @@ def cache_agents(endpoints: Dict[int, str]):
     registries = {domain: ContractRegistry.from_latest_publication(domain=domain) for domain in _TRACK}
 
     for domain, registry in registries.items():
-        endpoint = endpoints[domain.polygon_chain.id]
-        if not endpoint:
-            raise ValueError(f"No endpoint provided for domain {domain}")
-        for agent_class in _TRACK[domain]:
+        for agent_class, chain in _TRACK[domain]:
+            endpoint = endpoints[chain.id]
+            if not endpoint:
+                raise ValueError(
+                    f"No endpoint provided for domain {domain}:{agent_class}:{chain.id}"
+                )
+
             _agent = ContractAgency.get_agent(
                 agent_class=agent_class,
                 registry=registry,
