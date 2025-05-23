@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b3ec17a3cec885308cb8100f0a0ecf6eedc4b56b82f7d70f625234deb39603e7"
+            "sha256": "7e20fdc8e5779eff964806ab05e0c6617aee47fc42dd7737acee5d1392fe84ce"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -1156,6 +1156,7 @@
                 "sha256:fbf36c5a220a85187cacc1fcb7dd87070e04b5fc28df7a43f6842f7c8224a388",
                 "sha256:fc42882b554a86e564e0b662da47b8a4b32fa966920bd165e27bb8079a323bc1"
             ],
+            "markers": "python_version >= '3.9' and python_version < '4'",
             "version": "==1.2.0"
         },
         "mako": {
@@ -1375,9 +1376,9 @@
             "version": "==6.4.3"
         },
         "nucypher": {
-            "git": "https://github.com/derekpierre/nucypher.git",
+            "git": "https://github.com/nucypher/nucypher.git",
             "markers": "python_version >= '3'",
-            "ref": "3dd1985b33932d9278e48d359b8c38f0563709d7"
+            "ref": "371e56ba7057aac988ea57bfcc7e231e56a05212"
         },
         "nucypher-core": {
             "hashes": [
