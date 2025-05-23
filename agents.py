@@ -15,7 +15,7 @@ __AGENTS = defaultdict(defaultdict)
 _TRACK = {
     domains.LYNX: [
         (CoordinatorAgent, domains.LYNX.polygon_chain),
-        (SigningCoordinatorAgent, domains.LYNX.eth_chain.chain),
+        (SigningCoordinatorAgent, domains.LYNX.eth_chain),
     ],
     domains.TAPIR: [
         (CoordinatorAgent, domains.TAPIR.polygon_chain),
