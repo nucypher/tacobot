@@ -1,10 +1,10 @@
-FROM python:3.12-slim-trixie
+FROM nucypher/rust-python:3.12.11
 
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
 
-RUN apt-get update && apt-get install -y git python3-pip
+RUN sudo apt-get update && sudo apt-get install -y git python3-pip
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
