@@ -19,6 +19,7 @@ _TRACK = {
     ],
     domains.TAPIR: [
         (CoordinatorAgent, domains.TAPIR.polygon_chain),
+        (SigningCoordinatorAgent, domains.TAPIR.eth_chain),
     ],
     domains.MAINNET: [
         (CoordinatorAgent, domains.MAINNET.polygon_chain),
