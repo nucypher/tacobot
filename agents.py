@@ -23,6 +23,7 @@ _TRACK = {
     ],
     domains.MAINNET: [
         (CoordinatorAgent, domains.MAINNET.polygon_chain),
+        (SigningCoordinatorAgent, domains.MAINNET.eth_chain),
     ]
 }
 
