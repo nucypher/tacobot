@@ -9,3 +9,11 @@ class RitualState(Enum):
     INVALID = 4
     ACTIVE = 5
     EXPIRED = 6
+
+
+class SigningRitualState(Enum):
+    NON_INITIATED = 0
+    AWAITING_SIGNATURES = 1
+    TIMEOUT = 2
+    ACTIVE = 3
+    EXPIRED = 4

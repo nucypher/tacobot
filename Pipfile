@@ -8,10 +8,10 @@ aiohttp = "*"
 python-dotenv = "*"
 web3 = "*"
 "discord.py" = "*"
-nucypher = ">=7.4.1"
+nucypher = {git = "https://github.com/nucypher/nucypher.git", ref = "v7.7.x"}
 
 
 [dev-packages]
 
 [requires]
-python_version = "3.10"
+python_version = "3.12"
